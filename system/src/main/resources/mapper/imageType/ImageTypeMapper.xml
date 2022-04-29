@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vueadmin.system.mapper.ImageTypeMapper">
+
+    <resultMap type="ImageType" id="ImageTypeResult">
+        <result property="imageTypeid"    column="image_typeid"    />
+        <result property="imageType"    column="image_type"    />
+    </resultMap>
+
+    <sql id="selectImageTypeVo">
+        select image_typeid, image_type from image_type
+    </sql>
+
+    <select id="selectImageTypeList" parameterType="ImageType" resultMap="ImageTypeResult">
+        <include refid="selectImageTypeVo"/>
+        <where>
+            <if test="imageType != null  and imageType != ''"> and image_type = #{imageType}</if>
+        </where>
+    </select>
+
+    <select id="selectImageTypeByImageTypeid" parameterType="Long" resultMap="ImageTypeResult">
+        <include refid="selectImageTypeVo"/>
+        where image_typeid = #{imageTypeid}
+    </select>
+
+    <insert id="insertImageType" parameterType="ImageType" useGeneratedKeys="true" keyProperty="imageTypeid">
+        insert into image_type
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageType != null and imageType != ''">image_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageType != null and imageType != ''">#{imageType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateImageType" parameterType="ImageType">
+        update image_type
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imageType != null and imageType != ''">image_type = #{imageType},</if>
+        </trim>
+        where image_typeid = #{imageTypeid}
+    </update>
+
+    <delete id="deleteImageTypeByImageTypeid" parameterType="Long">
+        delete from image_type where image_typeid = #{imageTypeid}
+    </delete>
+
+    <delete id="deleteImageTypeByImageTypeids" parameterType="String">
+        delete from image_type where image_typeid in
+        <foreach item="imageTypeid" collection="array" open="(" separator="," close=")">
+            #{imageTypeid}
+        </foreach>
+    </delete>
+</mapper>

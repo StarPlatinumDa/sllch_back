@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vueadmin.system.mapper.ImageInfoMapper">
+    
+    <resultMap type="ImageInfo" id="ImageInfoResult">
+        <result property="imageId"    column="image_id"    />
+        <result property="imageTypeid"    column="image_typeid"    />
+        <result property="imageSrc"    column="image_src"    />
+        <result property="imageCreatetime"    column="image_createtime"    />
+        <result property="imageShotplace"    column="image_shotplace"    />
+        <result property="imageIsdelete"    column="image_isdelete"    />
+        <result property="imageRemarks"    column="image_remarks"    />
+        <result property="userId"    column="user_id"    />
+    </resultMap>
+
+    <sql id="selectImageInfoVo">
+        select image_id, image_typeid, image_src, image_createtime, image_shotplace, image_isdelete, image_remarks, user_id from image_info
+    </sql>
+
+    <select id="selectImageInfoList" parameterType="ImageInfo" resultMap="ImageInfoResult">
+        <include refid="selectImageInfoVo"/>
+        <where>  
+            <if test="imageId != null  and imageId != ''"> and image_id = #{imageId}</if>
+            <if test="imageTypeid != null "> and image_typeid = #{imageTypeid}</if>
+            <if test="imageCreatetime != null "> and image_createtime = #{imageCreatetime}</if>
+            <if test="userId != null "> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectImageInfoByImageId" parameterType="String" resultMap="ImageInfoResult">
+        <include refid="selectImageInfoVo"/>
+        where image_id = #{imageId}
+    </select>
+
+    <select id="selectImageTypeByID" parameterType="String">
+        select * from image_type where image_id = #{imageId}
+    </select>
+        
+    <insert id="insertImageInfo" parameterType="ImageInfo" useGeneratedKeys="true" keyProperty="imageId">
+        insert into image_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="imageTypeid != null">image_typeid,</if>
+            <if test="imageSrc != null and imageSrc != ''">image_src,</if>
+            <if test="imageCreatetime != null">image_createtime,</if>
+            <if test="imageShotplace != null and imageShotplace != ''">image_shotplace,</if>
+            <if test="imageIsdelete != null and imageIsdelete != ''">image_isdelete,</if>
+            <if test="imageRemarks != null">image_remarks,</if>
+            <if test="userId != null">user_id,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="imageTypeid != null">#{imageTypeid},</if>
+            <if test="imageSrc != null and imageSrc != ''">#{imageSrc},</if>
+            <if test="imageCreatetime != null">#{imageCreatetime},</if>
+            <if test="imageShotplace != null and imageShotplace != ''">#{imageShotplace},</if>
+            <if test="imageIsdelete != null and imageIsdelete != ''">#{imageIsdelete},</if>
+            <if test="imageRemarks != null">#{imageRemarks},</if>
+            <if test="userId != null">#{userId},</if>
+         </trim>
+    </insert>
+
+    <update id="updateImageInfo" parameterType="ImageInfo">
+        update image_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="imageTypeid != null">image_typeid = #{imageTypeid},</if>
+            <if test="imageSrc != null and imageSrc != ''">image_src = #{imageSrc},</if>
+            <if test="imageCreatetime != null">image_createtime = #{imageCreatetime},</if>
+            <if test="imageShotplace != null and imageShotplace != ''">image_shotplace = #{imageShotplace},</if>
+            <if test="imageIsdelete != null and imageIsdelete != ''">image_isdelete = #{imageIsdelete},</if>
+            <if test="imageRemarks != null">image_remarks = #{imageRemarks},</if>
+            <if test="userId != null">user_id = #{userId},</if>
+        </trim>
+        where image_id = #{imageId}
+    </update>
+
+    <delete id="deleteImageInfoByImageId" parameterType="String">
+        delete from image_info where image_id = #{imageId}
+    </delete>
+
+    <delete id="deleteImageInfoByImageIds" parameterType="String">
+        delete from image_info where image_id in 
+        <foreach item="imageId" collection="array" open="(" separator="," close=")">
+            #{imageId}
+        </foreach>
+    </delete>
+</mapper>
