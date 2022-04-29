@@ -50,6 +50,16 @@ public class SysLoginController
         ajax.put(Constants.TOKEN, token);
         return ajax;
     }
+    @PostMapping("/mobilelogin")
+    public AjaxResult mobileLogin(String userName,String passWord)
+    {
+        AjaxResult ajax = AjaxResult.success();
+        // 生成令牌
+        String token = loginService.mobileLogin(userName, passWord, null,
+                null);
+        ajax.put(Constants.TOKEN, token);
+        return ajax;
+    }
 
     /**
      * 获取用户信息
