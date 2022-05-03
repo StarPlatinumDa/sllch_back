@@ -37,7 +37,7 @@ public class ImageTypeController extends BaseController
     /**
      * 查询图像类型列表
      */
-    @PreAuthorize("@ss.hasPermi('imageType:imagetype:list')")
+    //@PreAuthorize("@ss.hasPermi('imageType:imagetype:list')")
     @GetMapping("/list")
     public TableDataInfo list(ImageType imageType)
     {
@@ -62,7 +62,7 @@ public class ImageTypeController extends BaseController
     /**
      * 获取图像类型详细信息
      */
-    @PreAuthorize("@ss.hasPermi('imageType:imagetype:query')")
+    //@PreAuthorize("@ss.hasPermi('imageType:imagetype:query')")
     @GetMapping(value = "/{imageTypeid}")
     public AjaxResult getInfo(@PathVariable("imageTypeid") Long imageTypeid)
     {

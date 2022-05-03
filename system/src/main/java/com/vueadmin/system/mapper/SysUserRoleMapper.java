@@ -21,6 +21,11 @@ public interface SysUserRoleMapper
     public int deleteUserRoleByUserId(Long userId);
 
     /**
+     * 通过用户Id获取角色类型
+     * */
+    public String getroleTypeById(Long userId);
+
+    /**
      * 批量删除用户和角色关联
      * 
      * @param ids 需要删除的数据ID

@@ -37,7 +37,7 @@ public class ImageInfoController extends BaseController
     /**
      * 查询图像数据管理列表
      */
-    @PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:list')")
+    //@PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:list')")
     @GetMapping("/list")
     public TableDataInfo list(ImageInfo imageInfo)
     {
@@ -63,17 +63,25 @@ public class ImageInfoController extends BaseController
     /**
      * 获取图像数据管理详细信息
      */
-    @PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:query')")
+    //@PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:query')")
     @GetMapping(value = "/{imageId}")
     public AjaxResult getInfo(@PathVariable("imageId") String imageId)
     {
-        return AjaxResult.success(imageInfoService.selectImageInfoByImageId(imageId));
+        ImageInfo imageInfo = new ImageInfo();
+        imageInfo.setUserId(getLoginUser().getUserId());
+        List<ImageInfo> list = imageInfoService.selectImageInfoList(imageInfo);
+        for (int i=0;i<list.size();i++){
+            if (list.get(i).getImageId().equals(imageId)){
+                return AjaxResult.success(list.get(i));
+            }
+        }
+        return AjaxResult.success("没有找到该数据");
     }
 
     /**
      * 新增图像数据管理
      */
-    @PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:add')")
+    //@PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:add')")
     @Log(title = "图像数据管理", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ImageInfo imageInfo)
@@ -84,7 +92,7 @@ public class ImageInfoController extends BaseController
     /**
      * 修改图像数据管理
      */
-    @PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:edit')")
+    //@PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:edit')")
     @Log(title = "图像数据管理", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ImageInfo imageInfo)
@@ -95,7 +103,7 @@ public class ImageInfoController extends BaseController
     /**
      * 删除图像数据管理
      */
-    @PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:remove')")
+    //@PreAuthorize("@ss.hasPermi('imageInfo:imagemanage:remove')")
     @Log(title = "图像数据管理", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{imageIds}")
     public AjaxResult remove(@PathVariable String[] imageIds)

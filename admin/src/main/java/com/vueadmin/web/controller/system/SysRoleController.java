@@ -89,14 +89,14 @@ public class SysRoleController extends BaseController
     @PostMapping
     public AjaxResult add(@Validated @RequestBody SysRole role)
     {
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))&&UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
         {
-            return AjaxResult.error("新增角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return AjaxResult.error("存在相同角色名以及权限！");
         }
-        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
-        {
-            return AjaxResult.error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
-        }
+//        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+//        {
+//            return AjaxResult.error("新增角色'" + role.getRoleName() + "'失败，角色权限已存在");
+//        }
         role.setCreateBy(getUsername());
         return toAjax(roleService.insertRole(role));
 
@@ -112,14 +112,18 @@ public class SysRoleController extends BaseController
     {
         roleService.checkRoleAllowed(role);
         roleService.checkRoleDataScope(role.getRoleId());
-        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role))&&UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
         {
-            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+            return AjaxResult.error("存在相同角色名以及权限！");
         }
-        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
-        {
-            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
-        }
+//        if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleNameUnique(role)))
+//        {
+//            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色名称已存在");
+//        }
+//        else if (UserConstants.NOT_UNIQUE.equals(roleService.checkRoleKeyUnique(role)))
+//        {
+//            return AjaxResult.error("修改角色'" + role.getRoleName() + "'失败，角色权限已存在");
+//        }
         role.setUpdateBy(getUsername());
         
         if (roleService.updateRole(role) > 0)

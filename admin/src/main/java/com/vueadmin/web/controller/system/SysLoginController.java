@@ -2,6 +2,9 @@ package com.vueadmin.web.controller.system;
 
 import java.util.List;
 import java.util.Set;
+
+import com.vueadmin.system.mapper.SysUserMapper;
+import com.vueadmin.system.mapper.SysUserRoleMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,6 +37,12 @@ public class SysLoginController
     @Autowired
     private SysPermissionService permissionService;
 
+    @Autowired
+    private SysUserMapper sysUserMapper;
+
+    @Autowired
+    private SysUserRoleMapper sysUserRoleMapper;
+
     /**
      * 登录方法
      * 
@@ -43,6 +52,10 @@ public class SysLoginController
     @PostMapping("/login")
     public AjaxResult login(@RequestBody LoginBody loginBody)
     {
+        if((!sysUserRoleMapper.getroleTypeById(sysUserMapper.selectUserByUserName(loginBody.getUsername()).getUserId()).equals("admin"))&&(!sysUserRoleMapper.getroleTypeById(sysUserMapper.selectUserByUserName(loginBody.getUsername()).getUserId()).equals("spadmin"))){
+            AjaxResult ajax = AjaxResult.error("无登录权限，请联系管理员！");
+            return ajax;
+        }
         AjaxResult ajax = AjaxResult.success();
         // 生成令牌
         String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
