@@ -64,6 +64,10 @@ public class SysUser extends BaseEntity
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
+    /** 图像权限*/
+    @Excel(name = "图片权限等级")
+    private String imgPerlevel;
+
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
 
@@ -107,6 +111,14 @@ public class SysUser extends BaseEntity
     public Long getUserId()
     {
         return userId;
+    }
+
+    public String getImgPerlevel() {
+        return imgPerlevel;
+    }
+
+    public void setImgPerlevel(String imgPerlevel) {
+        this.imgPerlevel = imgPerlevel;
     }
 
     public void setUserId(Long userId)
@@ -337,6 +349,7 @@ public class SysUser extends BaseEntity
             .append("updateTime", getUpdateTime())
             .append("remark", getRemark())
             .append("dept", getDept())
+                .append("imgPerlevel",getImgPerlevel())
             .toString();
     }
 }

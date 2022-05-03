@@ -232,10 +232,10 @@ public class SysUserServiceImpl implements ISysUserService
     {
         if (!SysUser.isAdmin(SecurityUtils.getUserId()))
         {
-            SysUser user = new SysUser();
-            user.setUserId(userId);
-            List<SysUser> users = SpringUtils.getAopProxy(this).selectUserList(user);
-            if (StringUtils.isEmpty(users))
+//            SysUser user = new SysUser();
+//            user.setUserId(userId);
+//            List<SysUser> users = SpringUtils.getAopProxy(this).selectUserList(user);
+            if (StringUtils.isNull(userMapper.selectUserById(userId)))
             {
                 throw new ServiceException("没有权限访问用户数据！");
             }

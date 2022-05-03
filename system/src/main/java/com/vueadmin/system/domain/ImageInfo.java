@@ -37,6 +37,10 @@ public class ImageInfo extends BaseEntity
     @Excel(name = "图像拍摄地点")
     private String imageShotplace;
 
+    /** 图像权限等级*/
+    @Excel(name = "图像权限等级")
+    private String imagePerlevel;
+
     /** 图像注删 */
     @Excel(name = "图像注删")
     private String imageIsdelete;
@@ -72,7 +76,15 @@ public class ImageInfo extends BaseEntity
         this.imageSrc = imageSrc;
     }
 
-    public String getImageSrc() 
+    public String getImagePerlevel() {
+        return imagePerlevel;
+    }
+
+    public void setImagePerlevel(String imagePerlevel) {
+        this.imagePerlevel = imagePerlevel;
+    }
+
+    public String getImageSrc()
     {
         return imageSrc;
     }
@@ -130,6 +142,7 @@ public class ImageInfo extends BaseEntity
             .append("imageSrc", getImageSrc())
             .append("imageCreatetime", getImageCreatetime())
             .append("imageShotplace", getImageShotplace())
+                .append("imagePerlevel",getImagePerlevel())
             .append("imageIsdelete", getImageIsdelete())
             .append("imageRemarks", getImageRemarks())
             .append("userId", getUserId())

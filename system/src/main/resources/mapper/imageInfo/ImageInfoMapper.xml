@@ -10,23 +10,28 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="imageSrc"    column="image_src"    />
         <result property="imageCreatetime"    column="image_createtime"    />
         <result property="imageShotplace"    column="image_shotplace"    />
+        <result property="imagePerlevel"    column="image_perlevel"     />
         <result property="imageIsdelete"    column="image_isdelete"    />
         <result property="imageRemarks"    column="image_remarks"    />
         <result property="userId"    column="user_id"    />
     </resultMap>
 
     <sql id="selectImageInfoVo">
-        select image_id, image_typeid, image_src, image_createtime, image_shotplace, image_isdelete, image_remarks, user_id from image_info
+        select image_id, image_typeid, image_src, image_createtime, image_shotplace, image_perlevel, image_isdelete, image_remarks, user_id from image_info
     </sql>
 
     <select id="selectImageInfoList" parameterType="ImageInfo" resultMap="ImageInfoResult">
-        <include refid="selectImageInfoVo"/>
-        <where>  
-            <if test="imageId != null  and imageId != ''"> and image_id = #{imageId}</if>
-            <if test="imageTypeid != null "> and image_typeid = #{imageTypeid}</if>
-            <if test="imageCreatetime != null "> and image_createtime = #{imageCreatetime}</if>
-            <if test="userId != null "> and user_id = #{userId}</if>
-        </where>
+        select image_id, image_typeid, image_src, image_createtime,
+               image_shotplace, image_perlevel, image_isdelete, image_remarks,
+               user_id from image_info where image_perlevel >= (select img_perlevel from sys_user where sys_user.user_id = #{userId})
+<!--        <include refid="selectImageInfoVo"/>-->
+<!--        <where>-->
+<!--            <if test="imageId != null  and imageId != ''"> and image_id = #{imageId}</if>-->
+<!--            <if test="imageTypeid != null "> and image_typeid = #{imageTypeid}</if>-->
+<!--            <if test="imageCreatetime != null "> and image_createtime = #{imageCreatetime}</if>-->
+<!--            <if test="userId != null "> and user_id = #{userId}</if>-->
+<!--            image_perlevel > (select img_perlevel from sys_user where sys_user.user_id = #{userId})-->
+<!--        </where>-->
     </select>
     
     <select id="selectImageInfoByImageId" parameterType="String" resultMap="ImageInfoResult">
@@ -45,6 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="imageSrc != null and imageSrc != ''">image_src,</if>
             <if test="imageCreatetime != null">image_createtime,</if>
             <if test="imageShotplace != null and imageShotplace != ''">image_shotplace,</if>
+            <if test="imagePerlevel  != null and imagePerlevel  != ''">image_perlevel,</if>
             <if test="imageIsdelete != null and imageIsdelete != ''">image_isdelete,</if>
             <if test="imageRemarks != null">image_remarks,</if>
             <if test="userId != null">user_id,</if>
@@ -54,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="imageSrc != null and imageSrc != ''">#{imageSrc},</if>
             <if test="imageCreatetime != null">#{imageCreatetime},</if>
             <if test="imageShotplace != null and imageShotplace != ''">#{imageShotplace},</if>
+            <if test="imagePerlevel  != null and imagePerlevel  != ''">#{imagePerlevel},</if>
             <if test="imageIsdelete != null and imageIsdelete != ''">#{imageIsdelete},</if>
             <if test="imageRemarks != null">#{imageRemarks},</if>
             <if test="userId != null">#{userId},</if>
@@ -67,6 +74,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="imageSrc != null and imageSrc != ''">image_src = #{imageSrc},</if>
             <if test="imageCreatetime != null">image_createtime = #{imageCreatetime},</if>
             <if test="imageShotplace != null and imageShotplace != ''">image_shotplace = #{imageShotplace},</if>
+            <if test="imagePerlevel  != null and imagePerlevel  != ''">image_perlevel = #{imagePerlevel},</if>
             <if test="imageIsdelete != null and imageIsdelete != ''">image_isdelete = #{imageIsdelete},</if>
             <if test="imageRemarks != null">image_remarks = #{imageRemarks},</if>
             <if test="userId != null">user_id = #{userId},</if>

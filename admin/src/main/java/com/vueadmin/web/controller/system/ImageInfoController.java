@@ -42,6 +42,7 @@ public class ImageInfoController extends BaseController
     public TableDataInfo list(ImageInfo imageInfo)
     {
         startPage();
+        imageInfo.setUserId(getLoginUser().getUserId());
         List<ImageInfo> list = imageInfoService.selectImageInfoList(imageInfo);
         return getDataTable(list);
     }
@@ -68,8 +69,6 @@ public class ImageInfoController extends BaseController
     {
         return AjaxResult.success(imageInfoService.selectImageInfoByImageId(imageId));
     }
-
-
 
     /**
      * 新增图像数据管理

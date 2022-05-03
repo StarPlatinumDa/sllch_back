@@ -9,7 +9,10 @@ import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
+import java.util.TimeZone;
+
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.poi.ss.formula.functions.Now;
 
 /**
  * 时间工具类
@@ -40,7 +43,16 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
      */
     public static Date getNowDate()
     {
-        return new Date();
+        SimpleDateFormat format =new SimpleDateFormat(YYYY_MM_DD_HH_MM_SS);
+        format.setTimeZone(TimeZone.getTimeZone("GMT+8"));
+        String StDate = format.format(new Date());
+        try {
+            Date NowDate = format.parse(StDate);
+            return NowDate;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     /**

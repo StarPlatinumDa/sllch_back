@@ -1,6 +1,8 @@
 package com.vueadmin.framework.manager.factory;
 
 import java.util.TimerTask;
+
+import com.vueadmin.common.utils.DateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.vueadmin.common.constant.Constants;
@@ -74,6 +76,7 @@ public class AsyncFactory
                 {
                     logininfor.setStatus(Constants.FAIL);
                 }
+                logininfor.setLoginTime(DateUtils.getNowDate());
                 // 插入数据
                 SpringUtils.getBean(ISysLogininforService.class).insertLogininfor(logininfor);
             }
@@ -95,6 +98,7 @@ public class AsyncFactory
             {
                 // 远程查询操作地点
                 operLog.setOperLocation(AddressUtils.getRealAddressByIP(operLog.getOperIp()));
+                operLog.setOperTime(DateUtils.getNowDate());
                 SpringUtils.getBean(ISysOperLogService.class).insertOperlog(operLog);
             }
         };
