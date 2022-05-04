@@ -49,7 +49,7 @@ spring:
                 stat:
                     enabled: true
                     # 慢SQL记录
-                    log-slow-sql: true
+                    log-slow-sql: false
                     slow-sql-millis: 1000
                     merge-sql: true
                 wall:

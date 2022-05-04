@@ -2,6 +2,8 @@ package com.vueadmin.web.controller.system;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.vueadmin.common.utils.ossUploader;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -97,6 +99,10 @@ public class ImageInfoController extends BaseController
     @PutMapping
     public AjaxResult edit(@RequestBody ImageInfo imageInfo)
     {
+//        System.out.println(imageInfo.getImageSrc());
+//        ossUploader ossUploader = new ossUploader();
+//        String url = imageInfo.getImageSrc();
+//        ossUploader.ossImageLoader(url);
         return toAjax(imageInfoService.updateImageInfo(imageInfo));
     }
 

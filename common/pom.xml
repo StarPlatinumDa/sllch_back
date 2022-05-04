@@ -29,6 +29,13 @@
             <artifactId>spring-web</artifactId>
         </dependency>
 
+        <!--阿里云OSS图片云SDK-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.10.2</version>
+        </dependency>
+
         <!-- spring security 安全认证 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

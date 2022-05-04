@@ -126,7 +126,7 @@ public class Config
     }
 
     /**
-     * 获取上传路径
+     * 获取上传路径/upload
      */
     public static String getUploadPath()
     {
