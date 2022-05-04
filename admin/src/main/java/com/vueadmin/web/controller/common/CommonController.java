@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import com.vueadmin.common.config.Config;
 import com.vueadmin.common.constant.Constants;
@@ -77,7 +74,36 @@ public class CommonController
      * 通用上传请求（单个）
      */
     @PostMapping("/upload")
-    public AjaxResult uploadFile(MultipartFile file) throws Exception
+    public AjaxResult uploadFile(@RequestParam("file") MultipartFile file) throws Exception
+    {
+        try
+        {
+            String fileName1 = extractFilename(file);
+            String[] splitedFilename = fileName1.split("/");
+            // 上传文件路径
+            String filePath = Config.getUploadPath();
+            // 上传并返回新文件名称
+            String fileName = FileUploadUtils.upload(filePath, file);
+            String[] splitedNewFileName = fileName.split("/");
+//            String url = serverConfig.getUrl() + fileName;
+            String url = filePath+"/"+splitedFilename[0]+"/"+splitedFilename[1]+"/"+splitedFilename[2]+"/"+splitedNewFileName[6];
+            ossUploader ossUploader = new ossUploader();
+            String callBackUrl = ossUploader.ossImageLoader(url);
+            AjaxResult ajax = AjaxResult.success();
+            ajax.put("url", callBackUrl);
+            ajax.put("fileName", fileName);
+            ajax.put("newFileName", FileUtils.getName(fileName));
+            ajax.put("originalFilename", file.getOriginalFilename());
+            return ajax;
+        }
+        catch (Exception e)
+        {
+            return AjaxResult.error(e.getMessage());
+        }
+    }
+    /*移动端上传*/
+    @PostMapping("/mobileupload")
+    public AjaxResult mobileuploadFile(MultipartFile file) throws Exception
     {
         try
         {
