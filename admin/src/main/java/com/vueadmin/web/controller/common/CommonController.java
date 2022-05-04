@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.vueadmin.common.utils.ossUploader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,8 @@ import com.vueadmin.common.utils.StringUtils;
 import com.vueadmin.common.utils.file.FileUploadUtils;
 import com.vueadmin.common.utils.file.FileUtils;
 import com.vueadmin.framework.config.ServerConfig;
+import static com.vueadmin.common.utils.file.FileUploadUtils.extractFilename;
+import static com.vueadmin.common.utils.file.FileUploadUtils.getAbsoluteFile;
 
 /**
  * 通用请求处理
@@ -77,13 +81,19 @@ public class CommonController
     {
         try
         {
+            String fileName1 = extractFilename(file);
+            String[] splitedFilename = fileName1.split("/");
             // 上传文件路径
             String filePath = Config.getUploadPath();
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
-            String url = serverConfig.getUrl() + fileName;
+            String[] splitedNewFileName = fileName.split("/");
+//            String url = serverConfig.getUrl() + fileName;
+            String url = filePath+"/"+splitedFilename[0]+"/"+splitedFilename[1]+"/"+splitedFilename[2]+"/"+splitedNewFileName[6];
+            ossUploader ossUploader = new ossUploader();
+            String callBackUrl = ossUploader.ossImageLoader(url);
             AjaxResult ajax = AjaxResult.success();
-            ajax.put("url", url);
+            ajax.put("url", callBackUrl);
             ajax.put("fileName", fileName);
             ajax.put("newFileName", FileUtils.getName(fileName));
             ajax.put("originalFilename", file.getOriginalFilename());

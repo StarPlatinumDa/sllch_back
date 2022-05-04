@@ -24,7 +24,7 @@ public class ossUploader {
         PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, objectName, new File(path));
         // 上传文件。
         ossClient.putObject(putObjectRequest);
-        String result = "rcdl.oss-cn-chengdu.aliyuncs.com/"+objectName;
+        String result = "https://rcdl.oss-cn-chengdu.aliyuncs.com/"+objectName+"?x-oss-process=image/auto-orient,1/quality,q_30";
         return result;
     }
 }
