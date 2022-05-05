@@ -7,17 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.vueadmin.common.config.Config;
 import com.vueadmin.common.utils.DateUtils;
+import com.vueadmin.common.utils.StringUtils;
 import com.vueadmin.common.utils.ossUploader;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.vueadmin.common.annotation.Log;
 import com.vueadmin.common.core.controller.BaseController;
 import com.vueadmin.common.core.domain.AjaxResult;
@@ -116,4 +110,20 @@ public class ImageInfoController extends BaseController
     {
         return toAjax(imageInfoService.deleteImageInfoByImageIds(imageIds));
     }
+
+    /**
+     * 通过文本检索图像
+     */
+    @GetMapping(value = "/getImageByText/{userId}")
+    public AjaxResult getImageByText(@RequestParam("query") String query, @RequestParam("level") String level,
+                                     @RequestParam("beginTime") String beginTime, @RequestParam("endTime") String endTime,
+                                     @PathVariable("userId") String userId) {
+        if (StringUtils.isEmpty(query)) {
+            return AjaxResult.error("查询文本不能为空！");
+        }
+        List<ImageInfo> images = imageInfoService.getImageByText(userId, query, level, beginTime, endTime);
+        AjaxResult ajaxResult = AjaxResult.success("检索成功", images);
+        return ajaxResult;
+    }
+
 }
