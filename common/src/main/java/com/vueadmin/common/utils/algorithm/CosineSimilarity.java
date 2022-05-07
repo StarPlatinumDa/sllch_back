@@ -11,6 +11,7 @@ public class CosineSimilarity {
 
     private static double EPSILON = 0.25;
     private static double PARAM_A = 0.45;
+    private static double PARAM_B = 0.55;
 
     private HashMap<String, Double> idfs;
     private ArrayList<Map<String, Integer>> docFreqs;
@@ -58,7 +59,15 @@ public class CosineSimilarity {
         while (entries.hasNext()) {
             Map.Entry<String, Integer> entry = entries.next();
             Integer df = entry.getValue();
-            double idf = Math.log(corpusSize - df + 0.5) - Math.log(df + 0.5);
+            double v1 = Math.log(corpusSize - df + 0.5);
+            double v2 = Math.log(df + 0.5);
+            double idf;
+            if (v2 < 1) {
+                idf = v1 - v2;
+            } else {
+                idf = v1 / v2;
+            }
+            idf = idf < PARAM_B ? PARAM_B : idf;
             idfs.put(entry.getKey(), idf);
             idfSum += idf;
             if (idf < 0) {

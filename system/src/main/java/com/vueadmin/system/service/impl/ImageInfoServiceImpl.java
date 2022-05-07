@@ -130,6 +130,7 @@ public class ImageInfoServiceImpl implements IImageInfoService
             ArrayList<String> labels = new ArrayList<>();
             ImageInfo imageInfo = imageInfos.get(i);
             String imageRemarks = imageInfo.getImageRemarks();
+            if (imageRemarks == null) imageRemarks = "";
             String[] split = imageRemarks.split("\\|");
             for (String s : split) {
                 labels.add(s);
@@ -143,7 +144,7 @@ public class ImageInfoServiceImpl implements IImageInfoService
         for (int i = 0; i < corpus.size(); i++) {
             List<String> words = TokenizerUtils.lucene3Tokenizer(query);
             double score = cosineSimilarity.getScore(words, i);
-            if (score >= 0.6) {
+            if (score >= 0.65) {
                 retImageInfos.add(imageInfos.get(i));
             }
         }
