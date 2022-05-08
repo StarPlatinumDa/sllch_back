@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 
 	<select id="getroleTypeById" resultType="String" parameterType="Long">
-		SELECT role_key from sys_role where role_id = (select role_id from sys_user_role where user_id = #{userId})
+		SELECT role_key from sys_role where role_id in (select role_id from sys_user_role where user_id = #{userId})
 	</select>
 	
 	<delete id="deleteUserRole" parameterType="Long">
