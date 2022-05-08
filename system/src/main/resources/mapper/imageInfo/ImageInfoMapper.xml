@@ -92,4 +92,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{imageId}
         </foreach>
     </delete>
+
+    <select id="selectImageInfoByLevelAndTime" parameterType="map" resultMap="ImageInfoResult">
+        select image_id, image_typeid, image_src, image_createtime,
+               image_shotplace, image_perlevel, image_isdelete, image_remarks,
+               user_id from image_info
+        where image_perlevel >= (select img_perlevel from sys_user where sys_user.user_id = #{userId})
+        <if test="imagePerlevel != null and imagePerlevel != ''">
+            and image_perlevel = #{imagePerlevel}
+        </if>
+        <if test="beginTime != null and beginTime != ''">
+            and image_createtime >= #{beginTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+            and image_createtime &lt;= #{endTime}
+        </if>
+    </select>
+
 </mapper>

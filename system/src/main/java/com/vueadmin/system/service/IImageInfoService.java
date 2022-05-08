@@ -2,6 +2,7 @@ package com.vueadmin.system.service;
 
 import java.util.List;
 import com.vueadmin.system.domain.ImageInfo;
+import org.springframework.web.bind.annotation.PathVariable;
 
 /**
  * 图像数据管理Service接口
@@ -58,4 +59,16 @@ public interface IImageInfoService
      * @return 结果
      */
     public int deleteImageInfoByImageId(String imageId);
+
+    /**
+     * 根据输入文本检索图像
+     *
+     * @param query 查询文本
+     * @param level 图像等级
+     * @param beginTime 和 endTime 控制图片创建时间范围
+     * @param endTime 和 startTime 控制图片创建时间范围
+     * @return 结果
+     */
+    public List<ImageInfo> getImageByText(String userId, String query, String level, String beginTime, String endTime);
+
 }

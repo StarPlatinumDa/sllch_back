@@ -1,6 +1,8 @@
 package com.vueadmin.system.mapper;
 
 import java.util.List;
+import java.util.Map;
+
 import com.vueadmin.system.domain.ImageInfo;
 
 /**
@@ -59,4 +61,13 @@ public interface ImageInfoMapper
      * @return 结果
      */
     public int deleteImageInfoByImageIds(String[] imageIds);
+
+    /**
+     * 根据等级和时间查询图像
+     *
+     * @param map {userId、imagePerlevel、startTime、endTime}
+     * @return 结果
+     */
+    public List<ImageInfo> selectImageInfoByLevelAndTime(Map map);
+
 }
