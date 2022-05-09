@@ -221,5 +221,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
  			#{userId}
         </foreach> 
  	</delete>
+
+	<select id="getUserByPhone" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.phonenumber = #{phonenumber}
+	</select>
+
+	<select id="getUsersByNickname" parameterType="String" resultMap="SysUserResult">
+		<include refid="selectUserVo"/>
+		where u.nick_name = #{nickname}
+	</select>
 	
 </mapper> 

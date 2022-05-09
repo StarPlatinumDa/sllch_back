@@ -33,6 +33,17 @@ public class Config
     /** 验证码类型 */
     private static String captchaType;
 
+    /** 网络资源请求地址 */
+    private static String netSourcePath;
+
+    public String getNetSourcePath() {
+        return netSourcePath;
+    }
+
+    public void setNetSourcePath(String netSourcePath) {
+        Config.netSourcePath = netSourcePath;
+    }
+
     public String getName()
     {
         return name;

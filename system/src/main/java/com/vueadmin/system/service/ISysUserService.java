@@ -1,7 +1,10 @@
 package com.vueadmin.system.service;
 
 import java.util.List;
+
+import com.vueadmin.common.core.domain.AjaxResult;
 import com.vueadmin.common.core.domain.entity.SysUser;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * 用户 业务层
@@ -203,4 +206,29 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    /**
+     * 通过用户电话查询用户
+     *
+     * @param phonenumber 用户电话
+     * @return 结果
+     */
+    public SysUser getUserByPhone(String phonenumber);
+
+    /**
+     * 通过用户昵称查询用户
+     *
+     * @param userNickname 用户昵称
+     * @return 结果
+     */
+    public List<SysUser> getUsersByNickname(String userNickname);
+
+    /**
+     * 通过用户ID查询用户
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    public SysUser getUserById(long userId);
+
 }

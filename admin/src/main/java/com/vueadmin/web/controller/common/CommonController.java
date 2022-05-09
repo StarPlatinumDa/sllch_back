@@ -1,14 +1,19 @@
 package com.vueadmin.web.controller.common;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.vueadmin.common.utils.ossUploader;
+import com.vueadmin.system.service.ICommonService;
+import com.vueadmin.system.service.impl.CommonServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +40,11 @@ public class CommonController
 
     @Autowired
     private ServerConfig serverConfig;
+    @Autowired
+    private CommonServiceImpl commonService;
 
+    @Value("${vueadmin.netSourcePath}")
+    private String netSourcePath;
     private static final String FILE_DELIMETER = ",";
 
     /**
@@ -196,4 +205,25 @@ public class CommonController
             log.error("下载文件失败", e);
         }
     }
+
+    /**
+     * 上传聊天文件（单个）
+     */
+    @PostMapping("/uploadNewsFile")
+    public AjaxResult uploadNewsFile(MultipartFile file, int fromId, int toId, int type) throws Exception {
+        String filePath = Config.getUploadPath();
+        Map<String, Object> result = null;
+        // type: 0-voice 1-image
+        if (type == 0) {
+            String voicePath = filePath + "/news/voice/" + fromId + "-" + toId + "/";
+            String netPath = netSourcePath + "news/voice/" + fromId + "-" + toId + "/";
+            result = commonService.uploadFile(file, voicePath, netPath);
+        } else if (type == 1) {
+            String imagePath = filePath + "/news/image/" + fromId + "-" + toId + "/";
+            String netPath = netSourcePath + "news/image/" + fromId + "-" + toId + "/";
+            result = commonService.uploadFile(file, imagePath, netPath);
+        }
+        return AjaxResult.success(result);
+    }
+
 }

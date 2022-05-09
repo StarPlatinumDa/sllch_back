@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vueadmin.system.mapper.GroupMemberMapper">
+
+    <insert id="addMember" parameterType="GroupMember">
+        insert into group_member(`group_id`, `member_id`, `member_name`) values(#{groupId}, #{memberId}, #{memberName})
+    </insert>
+
+    <delete id="delMember" parameterType="GroupMember">
+        delete from group_member where group_id=#{groupId} and member_id=#{memberId}
+    </delete>
+
+    <select id="selectAllMember" parameterType="int" resultType="SysUser">
+        select * from sys_user where user_id in (select member_id from group_member where group_id=#{groupId})
+    </select>
+
+    <update id="updateMemberName" parameterType="GroupMember">
+        update group_member set member_name=#{memberName} where group_id=#{groupId} and member_id=#{memberId}
+    </update>
+
+    <select id="selectAllGroup" parameterType="int" resultType="GroupChat">
+        select * from group_chat where group_id in (select group_id from group_member where member_id=#{userId})
+    </select>
+
+    <select id="selectMember" parameterType="Map" resultType="GroupMember">
+        select * from group_member where group_id=#{groupId} and member_id=#{memberId}
+    </select>
+
+</mapper>

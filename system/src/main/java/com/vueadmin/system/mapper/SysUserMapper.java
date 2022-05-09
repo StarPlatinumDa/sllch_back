@@ -124,4 +124,21 @@ public interface SysUserMapper
      * @return 结果
      */
     public SysUser checkEmailUnique(String email);
+
+    /**
+     * 通过用户电话查询用户
+     *
+     * @param phonenumber 用户电话
+     * @return 结果
+     */
+    public SysUser getUserByPhone(String phonenumber);
+
+    /**
+     * 通过用户昵称查询用户
+     *
+     * @param nickname 用户昵称
+     * @return 结果
+     */
+    public List<SysUser> getUsersByNickname(String nickname);
+
 }

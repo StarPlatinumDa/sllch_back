@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vueadmin.system.mapper.GroupChatMapper">
+
+    <insert id="addGroup" parameterType="GroupChat" useGeneratedKeys="true" keyProperty="groupId" keyColumn="group_id">
+        insert into group_chat(`owner_id`, `group_name`, `group_photo`) values(#{ownerId}, #{groupName}, #{groupPhoto})
+    </insert>
+
+    <delete id="delGroup" parameterType="int">
+        delete from group_chat where group_id=#{groupId}
+    </delete>
+
+    <update id="updateGroupName" parameterType="Map">
+        update group_chat set group_name=#{groupName} where group_id=#{groupId}
+    </update>
+
+    <update id="updateGroupPhoto" parameterType="Map">
+        update group_chat set group_photo=#{groupPhoto} where group_id=#{groupId}
+    </update>
+
+    <select id="selectOne" parameterType="int" resultType="GroupChat">
+        select * from group_chat where group_id=#{groupId}
+    </select>
+
+    <select id="selectGroupByIdOrName" parameterType="String" resultType="GroupChat">
+        select * from group_chat where group_id=#{content} or group_name=#{content}
+    </select>
+
+</mapper>

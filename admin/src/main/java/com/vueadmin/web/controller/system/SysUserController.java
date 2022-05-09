@@ -234,4 +234,29 @@ public class SysUserController extends BaseController
         userService.insertUserAuth(userId, roleIds);
         return success();
     }
+
+    /**
+     * 通过用户电话查询用户
+     */
+    @PostMapping("/getUserByPhone")
+    public AjaxResult getUserByPhone(String userPhone) {
+        return AjaxResult.success(userService.getUserByPhone(userPhone));
+    }
+
+    /**
+     * 通过用户昵称查询用户
+     */
+    @PostMapping("/getUsersByNickname")
+    public AjaxResult getUsersByNickname(String userNickname) {
+        return AjaxResult.success(userService.getUsersByNickname(userNickname));
+    }
+
+    /**
+     * 通过用户昵称查询用户
+     */
+    @PostMapping("/getUserById")
+    public AjaxResult getUserById(long userId) {
+        return AjaxResult.success(userService.getUserById(userId));
+    }
+
 }

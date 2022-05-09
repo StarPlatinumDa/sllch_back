@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Validator;
 
+import com.vueadmin.common.core.domain.AjaxResult;
 import com.vueadmin.system.domain.SysPost;
 import com.vueadmin.system.domain.SysUserPost;
 import com.vueadmin.system.domain.SysUserRole;
@@ -555,5 +556,41 @@ public class SysUserServiceImpl implements ISysUserService
             successMsg.insert(0, "恭喜您，数据已全部导入成功！共 " + successNum + " 条，数据如下：");
         }
         return successMsg.toString();
+    }
+
+    /**
+     * 通过用户电话查询用户
+     *
+     * @param userPhone 用户电话
+     * @return 结果
+     */
+    @Override
+    public SysUser getUserByPhone(String userPhone) {
+        SysUser userByPhone = userMapper.getUserByPhone(userPhone);
+        return userByPhone;
+    }
+
+    /**
+     * 通过用户昵称查询用户
+     *
+     * @param userNickname 用户昵称
+     * @return 结果
+     */
+    @Override
+    public List<SysUser> getUsersByNickname(String userNickname) {
+        List<SysUser> users = userMapper.getUsersByNickname(userNickname);
+        return users;
+    }
+
+    /**
+     * 通过用户ID查询用户
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public SysUser getUserById(long userId) {
+        SysUser sysUser = userMapper.selectUserById(userId);
+        return sysUser;
     }
 }

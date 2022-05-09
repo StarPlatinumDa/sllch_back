@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vueadmin.system.mapper.FriendVerificationMapper">
+    <insert id="addVerification" parameterType="FriendVerification">
+        insert into friend_verification(`user_id`, `from_id`, `to_id`, `verification_status`, `verification_time`)
+        values (#{userId}, #{fromId}, #{toId}, #{verificationStatus}, #{verificationTime})
+    </insert>
+
+    <delete id="delVerification" parameterType="int">
+        delete from friend_verification
+        where user_id=#{userId}
+    </delete>
+
+    <select id="selectAllByUserId" parameterType="int" resultType="FriendVerification">
+        select * from friend_verification
+        where user_id=#{userId} order by verification_time desc
+    </select>
+
+    <update id="updateVerification" parameterType="Map">
+        update friend_verification
+        <set>
+            <if test="verificationStatus != null">
+                verification_status=#{verificationStatus},
+            </if>
+            <if test="verificationTime != null">
+                verification_time=#{verificationTime}
+            </if>
+        </set>
+        where user_id=#{userId} and from_id=#{fromId} and to_id=#{toId} and verification_status=0
+    </update>
+
+    <select id="selectOne" parameterType="FriendVerification" resultType="FriendVerification">
+        select * from friend_verification
+        where user_id=#{userId} and from_id=#{fromId} and to_id=#{toId} and verification_status=#{verificationStatus}
+    </select>
+</mapper>

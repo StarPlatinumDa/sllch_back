@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.vueadmin.system.mapper.ChatMapper">
+
+    <insert id="addChatFrame" parameterType="Chat">
+        insert into chat(`user_id`, `chat_id`, `chat_type`) values(#{userId}, #{chatId}, #{chatType})
+    </insert>
+
+    <delete id="delChatFrame" parameterType="Chat">
+        delete from chat where user_id=#{userId} and chat_id=#{chatId} and chat_type=#{chatType}
+    </delete>
+
+    <select id="selectOneChatFrame" parameterType="Chat" resultType="Chat">
+        select * from chat where user_id=#{userId} and chat_id=#{chatId} and chat_type=#{chatType}
+    </select>
+
+    <select id="selectChatFrames" resultType="Chat">
+        select * from chat
+        where user_id=#{userId}
+    </select>
+
+    <delete id="delGroupChatFrames" parameterType="int">
+        delete from chat where chat_id=#{groupId} and chat_type=1
+    </delete>
+
+</mapper>
