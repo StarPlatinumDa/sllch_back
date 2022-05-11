@@ -11,7 +11,7 @@ public class CosineSimilarity {
 
     private static double EPSILON = 0.25;
     private static double PARAM_A = 0.45;
-    private static double PARAM_B = 0.55;
+    private static double PARAM_B = 0.53;
 
     private HashMap<String, Double> idfs;
     private ArrayList<Map<String, Integer>> docFreqs;
