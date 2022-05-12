@@ -23,8 +23,9 @@ import java.util.List;
 @Service
 public class GroupService {
 
-    @Value("${vueadmin.netSourcePath}")
-    private String baseURL;
+//    @Value("${vueadmin.netSourcePath}")
+//    private String baseURL;
+    private String baseURL = "/profile/upload/";
 
     @Resource
     private GroupChatMapper groupChatMapper;
