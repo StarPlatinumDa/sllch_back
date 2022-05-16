@@ -18,6 +18,8 @@ import com.vueadmin.system.service.ISysLogininforService;
 import com.vueadmin.system.service.ISysOperLogService;
 import eu.bitwalker.useragentutils.UserAgent;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 异步工厂（产生任务用）
  * 
@@ -26,6 +28,8 @@ import eu.bitwalker.useragentutils.UserAgent;
 public class AsyncFactory
 {
     private static final Logger sys_user_logger = LoggerFactory.getLogger("sys-user");
+
+    public static final ThreadLocal<HttpServletRequest> REQUEST_THREAD_LOCAL = ThreadLocal.withInitial(ServletUtils::getRequest);
 
     /**
      * 记录登录信息
@@ -39,8 +43,11 @@ public class AsyncFactory
     public static TimerTask recordLogininfor(final String username, final String status, final String message,
             final Object... args)
     {
-        final UserAgent userAgent = UserAgent.parseUserAgentString(ServletUtils.getRequest().getHeader("User-Agent"));
-        final String ip = IpUtils.getIpAddr(ServletUtils.getRequest());
+        final HttpServletRequest request = REQUEST_THREAD_LOCAL.get();
+        final String header = request.getHeader("User-Agent");
+        final UserAgent userAgent = UserAgent.parseUserAgentString(header);
+        final String ip = IpUtils.getIpAddr(request);
+        REQUEST_THREAD_LOCAL.remove();
         return new TimerTask()
         {
             @Override
