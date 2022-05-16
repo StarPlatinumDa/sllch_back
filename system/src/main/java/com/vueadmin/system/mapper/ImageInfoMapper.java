@@ -30,6 +30,14 @@ public interface ImageInfoMapper
     public List<ImageInfo> selectImageInfoList(ImageInfo imageInfo);
 
     /**
+     * 查询图像数据管理列表
+     *
+     * @param imageInfo 图像数据管理
+     * @return 图像数据管理集合
+     */
+    public List<ImageInfo> selectlistswithoutlimitation(ImageInfo imageInfo);
+
+    /**
      * 新增图像数据管理
      * 
      * @param imageInfo 图像数据管理

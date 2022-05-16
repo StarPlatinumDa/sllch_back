@@ -28,6 +28,8 @@ public interface IImageInfoService
      */
     public List<ImageInfo> selectImageInfoList(ImageInfo imageInfo);
 
+    public List<ImageInfo> selectlistswithoutlimitation(ImageInfo imageInfo);
+
     /**
      * 新增图像数据管理
      * 

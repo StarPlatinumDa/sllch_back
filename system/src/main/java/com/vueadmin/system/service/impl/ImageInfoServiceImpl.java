@@ -51,6 +51,11 @@ public class ImageInfoServiceImpl implements IImageInfoService
         return imageInfoMapper.selectImageInfoList(imageInfo);
     }
 
+    @Override
+    public List<ImageInfo> selectlistswithoutlimitation(ImageInfo imageInfo) {
+        return imageInfoMapper.selectlistswithoutlimitation(imageInfo);
+    }
+
     /**
      * 新增图像数据管理
      * 

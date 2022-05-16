@@ -20,6 +20,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select image_id, image_typeid, image_src, image_createtime, image_shotplace, image_perlevel, image_isdelete, image_remarks, user_id from image_info
     </sql>
 
+    <select id="selectlistswithoutlimitation" parameterType="ImageInfo" resultMap="ImageInfoResult">
+        <include refid="selectImageInfoVo"/>
+    </select>
+    
     <select id="selectImageInfoList" parameterType="ImageInfo" resultMap="ImageInfoResult">
         select image_id, image_typeid, image_src, image_createtime,
                image_shotplace, image_perlevel, image_isdelete, image_remarks,
