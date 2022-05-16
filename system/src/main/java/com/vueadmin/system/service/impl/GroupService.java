@@ -7,6 +7,7 @@ import com.vueadmin.system.domain.GroupMember;
 import com.vueadmin.system.domain.GroupVerification;
 import com.vueadmin.system.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,7 +23,9 @@ import java.util.List;
 @Service
 public class GroupService {
 
-    private final String baseURL = "http://192.168.2.6:8080/";
+//    @Value("${vueadmin.netSourcePath}")
+//    private String baseURL;
+    private String baseURL = "/profile/upload/";
 
     @Resource
     private GroupChatMapper groupChatMapper;
@@ -50,7 +53,7 @@ public class GroupService {
         GroupChat groupChat = new GroupChat();
         groupChat.setGroupName(groupName);
         groupChat.setOwnerId(ownerId);
-        groupChat.setGroupPhoto(baseURL + "images/defaultGroupPhoto.png");
+        groupChat.setGroupPhoto(baseURL + "defaultGroupPhoto.png");
         int r = groupChatMapper.addGroup(groupChat);
         if (r == -1) {
             res.put("status", -1);

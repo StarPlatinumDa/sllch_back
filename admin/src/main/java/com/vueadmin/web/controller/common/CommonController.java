@@ -216,11 +216,12 @@ public class CommonController
         // type: 0-voice 1-image
         if (type == 0) {
             String voicePath = filePath + "/news/voice/" + fromId + "-" + toId + "/";
-            String netPath = netSourcePath + "news/voice/" + fromId + "-" + toId + "/";
+//            String netPath = netSourcePath + "news/voice/" + fromId + "-" + toId + "/";
+            String netPath = "/profile/upload/news/voice/" + fromId + "-" + toId + "/";
             result = commonService.uploadFile(file, voicePath, netPath);
         } else if (type == 1) {
             String imagePath = filePath + "/news/image/" + fromId + "-" + toId + "/";
-            String netPath = netSourcePath + "news/image/" + fromId + "-" + toId + "/";
+            String netPath = "/profile/upload/news/image/" + fromId + "-" + toId + "/";
             result = commonService.uploadFile(file, imagePath, netPath);
         }
         return AjaxResult.success(result);
