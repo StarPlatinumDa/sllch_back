@@ -73,4 +73,5 @@ public interface IImageInfoService
      */
     public List<ImageInfo> getImageByText(String userId, String query, String level, String beginTime, String endTime);
 
+    public List<ImageInfo> selectImageInfoListById(ImageInfo imageInfo);
 }

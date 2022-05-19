@@ -78,4 +78,5 @@ public interface ImageInfoMapper
      */
     public List<ImageInfo> selectImageInfoByLevelAndTime(Map map);
 
+    public List<ImageInfo> selectImageInfoListById(ImageInfo imageInfo);
 }

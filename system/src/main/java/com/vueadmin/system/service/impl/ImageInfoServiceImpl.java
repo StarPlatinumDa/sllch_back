@@ -27,6 +27,11 @@ public class ImageInfoServiceImpl implements IImageInfoService
     @Resource
     private ImageInfoMapper imageInfoMapper;
 
+    @Override
+    public List<ImageInfo> selectImageInfoListById(ImageInfo imageInfo) {
+        return imageInfoMapper.selectImageInfoListById(imageInfo);
+    }
+
     /**
      * 查询图像数据管理
      * 

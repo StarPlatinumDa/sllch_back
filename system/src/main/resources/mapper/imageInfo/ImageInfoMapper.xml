@@ -37,6 +37,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--            image_perlevel > (select img_perlevel from sys_user where sys_user.user_id = #{userId})-->
 <!--        </where>-->
     </select>
+
+    <select id="selectImageInfoListById" parameterType="ImageInfo" resultMap="ImageInfoResult">
+        select image_id, image_typeid, image_src, image_createtime,
+               image_shotplace, image_perlevel, image_isdelete, image_remarks,
+               user_id from image_info where user_id = #{userId}
+    </select>
     
     <select id="selectImageInfoByImageId" parameterType="String" resultMap="ImageInfoResult">
         <include refid="selectImageInfoVo"/>

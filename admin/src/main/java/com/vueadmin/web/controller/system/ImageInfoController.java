@@ -53,6 +53,13 @@ public class ImageInfoController extends BaseController
         return getDataTable(list);
     }
 
+    @GetMapping("/listById")
+    public TableDataInfo listById(ImageInfo imageInfo){
+        imageInfo.setUserId(getLoginUser().getUserId());
+        List<ImageInfo> list = imageInfoService.selectImageInfoListById(imageInfo);
+        return getDataTable(list);
+    }
+
     /**
      * 导出图像数据管理列表
      */
