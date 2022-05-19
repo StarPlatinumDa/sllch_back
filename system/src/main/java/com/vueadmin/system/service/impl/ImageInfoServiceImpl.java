@@ -133,7 +133,8 @@ public class ImageInfoServiceImpl implements IImageInfoService
             if (imageRemarks == null) imageRemarks = "";
             String[] split = imageRemarks.split("\\|");
             for (String s : split) {
-                labels.add(s);
+                List<String> temp = TokenizerUtils.lucene3Tokenizer(s);
+                labels.addAll(temp);
             }
             labels.add("混凝土");
             labels.add("桥梁");
