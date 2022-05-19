@@ -46,6 +46,19 @@ public class ImageInfoController extends BaseController
         List<ImageInfo> list = imageInfoService.selectImageInfoList(imageInfo);
         return getDataTable(list);
     }
+    @GetMapping("/listAll")
+    public TableDataInfo listAll(ImageInfo imageInfo){
+        //startPage();
+        List<ImageInfo> list = imageInfoService.selectlistswithoutlimitation(imageInfo);
+        return getDataTable(list);
+    }
+
+    @GetMapping("/listById")
+    public TableDataInfo listById(ImageInfo imageInfo){
+        imageInfo.setUserId(getLoginUser().getUserId());
+        List<ImageInfo> list = imageInfoService.selectImageInfoListById(imageInfo);
+        return getDataTable(list);
+    }
 
     /**
      * 导出图像数据管理列表
@@ -55,6 +68,7 @@ public class ImageInfoController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, ImageInfo imageInfo)
     {
+        imageInfo.setUserId(getLoginUser().getUserId());
         List<ImageInfo> list = imageInfoService.selectImageInfoList(imageInfo);
         ExcelUtil<ImageInfo> util = new ExcelUtil<ImageInfo>(ImageInfo.class);
         util.exportExcel(response, list, "图像数据管理数据");

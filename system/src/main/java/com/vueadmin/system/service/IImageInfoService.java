@@ -28,6 +28,8 @@ public interface IImageInfoService
      */
     public List<ImageInfo> selectImageInfoList(ImageInfo imageInfo);
 
+    public List<ImageInfo> selectlistswithoutlimitation(ImageInfo imageInfo);
+
     /**
      * 新增图像数据管理
      * 
@@ -71,4 +73,5 @@ public interface IImageInfoService
      */
     public List<ImageInfo> getImageByText(String userId, String query, String level, String beginTime, String endTime);
 
+    public List<ImageInfo> selectImageInfoListById(ImageInfo imageInfo);
 }
