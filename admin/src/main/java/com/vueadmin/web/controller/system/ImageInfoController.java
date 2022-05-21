@@ -41,10 +41,17 @@ public class ImageInfoController extends BaseController
     @GetMapping("/list")
     public TableDataInfo list(ImageInfo imageInfo)
     {
-        startPage();
-        imageInfo.setUserId(getLoginUser().getUserId());
-        List<ImageInfo> list = imageInfoService.selectImageInfoList(imageInfo);
-        return getDataTable(list);
+        if(getLoginUser().getOs().contains("Android")){
+            imageInfo.setUserId(getLoginUser().getUserId());
+            List<ImageInfo> list = imageInfoService.selectImageInfoList(imageInfo);
+            return getDataTable(list);
+        }
+        else{
+            startPage();
+            imageInfo.setUserId(getLoginUser().getUserId());
+            List<ImageInfo> list = imageInfoService.selectImageInfoList(imageInfo);
+            return getDataTable(list);
+        }
     }
     @GetMapping("/listAll")
     public TableDataInfo listAll(ImageInfo imageInfo){
