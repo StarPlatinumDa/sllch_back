@@ -94,7 +94,6 @@ public class CommonController
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
             String[] splitedNewFileName = fileName.split("/");
-//            String url = serverConfig.getUrl() + fileName;
             String url = filePath+"/"+splitedFilename[0]+"/"+splitedFilename[1]+"/"+splitedFilename[2]+"/"+splitedNewFileName[6];
             ossUploader ossUploader = new ossUploader();
             String callBackUrl = ossUploader.ossImageLoader(url);

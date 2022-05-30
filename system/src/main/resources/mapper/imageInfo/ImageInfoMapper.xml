@@ -28,6 +28,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select image_id, image_typeid, image_src, image_createtime,
                image_shotplace, image_perlevel, image_isdelete, image_remarks,
                user_id from image_info where image_perlevel >= (select img_perlevel from sys_user where sys_user.user_id = #{userId})
+               <if test="imageTypeid != null "> and image_typeid = #{imageTypeid}</if>
+               <if test="imageCreatetime != null "> and image_createtime = #{imageCreatetime}</if>
+               <if test="imagePerlevel != null "> and image_perlevel = #{imagePerlevel}</if>
 <!--        <include refid="selectImageInfoVo"/>-->
 <!--        <where>-->
 <!--            <if test="imageId != null  and imageId != ''"> and image_id = #{imageId}</if>-->

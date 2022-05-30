@@ -1,6 +1,8 @@
 package com.vueadmin.web.controller.system;
 
 import java.io.IOException;
+
+import com.vueadmin.common.utils.ossUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +26,8 @@ import com.vueadmin.common.utils.StringUtils;
 import com.vueadmin.common.utils.file.FileUploadUtils;
 import com.vueadmin.framework.web.service.TokenService;
 import com.vueadmin.system.service.ISysUserService;
+
+import static com.vueadmin.common.utils.file.FileUploadUtils.extractFilename;
 
 /**
  * 个人信息 业务处理
@@ -127,13 +131,20 @@ public class SysProfileController extends BaseController
         if (!file.isEmpty())
         {
             LoginUser loginUser = getLoginUser();
-            String avatar = FileUploadUtils.upload(Config.getAvatarPath(), file);
-            if (userService.updateUserAvatar(loginUser.getUsername(), avatar))
+            String filePath = Config.getAvatarPath();
+            String fileName1 = extractFilename(file);
+            String[] splitedFilename = fileName1.split("/");
+            String avatar = FileUploadUtils.upload(filePath, file);
+            String[] splitedNewFileName = avatar.split("/");
+            String url = filePath+"/"+splitedFilename[0]+"/"+splitedFilename[1]+"/"+splitedFilename[2]+"/"+splitedNewFileName[6];
+            ossUploader ossUploader = new ossUploader();
+            String callBackUrl = ossUploader.ossImageLoader(url);
+            if (userService.updateUserAvatar(loginUser.getUsername(), callBackUrl))
             {
                 AjaxResult ajax = AjaxResult.success();
-                ajax.put("imgUrl", avatar);
+                ajax.put("imgUrl", callBackUrl);
                 // 更新缓存用户头像
-                loginUser.getUser().setAvatar(avatar);
+                loginUser.getUser().setAvatar(callBackUrl);
                 tokenService.setLoginUser(loginUser);
                 return ajax;
             }
