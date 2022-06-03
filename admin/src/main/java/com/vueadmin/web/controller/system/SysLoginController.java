@@ -52,16 +52,22 @@ public class SysLoginController
     @PostMapping("/login")
     public AjaxResult login(@RequestBody LoginBody loginBody)
     {
-        if((!sysUserRoleMapper.getroleTypeById(sysUserMapper.selectUserByUserName(loginBody.getUsername()).getUserId()).equals("admin"))&&(!sysUserRoleMapper.getroleTypeById(sysUserMapper.selectUserByUserName(loginBody.getUsername()).getUserId()).equals("spadmin"))){
+        if (sysUserRoleMapper.getroleTypeById(sysUserMapper.selectUserByUserName(loginBody.getUsername()).getUserId())!=null){
+            if((!sysUserRoleMapper.getroleTypeById(sysUserMapper.selectUserByUserName(loginBody.getUsername()).getUserId()).equals("admin"))&&(!sysUserRoleMapper.getroleTypeById(sysUserMapper.selectUserByUserName(loginBody.getUsername()).getUserId()).equals("spadmin"))){
+                AjaxResult ajax = AjaxResult.error("无登录权限，请联系管理员！");
+                return ajax;
+            }
+            AjaxResult ajax = AjaxResult.success();
+            // 生成令牌
+            String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
+                    loginBody.getUuid());
+            ajax.put(Constants.TOKEN, token);
+            return ajax;
+        }
+        else {
             AjaxResult ajax = AjaxResult.error("无登录权限，请联系管理员！");
             return ajax;
         }
-        AjaxResult ajax = AjaxResult.success();
-        // 生成令牌
-        String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
-                loginBody.getUuid());
-        ajax.put(Constants.TOKEN, token);
-        return ajax;
     }
     @PostMapping("/mobilelogin")
     public AjaxResult mobileLogin(String userName,String passWord)
