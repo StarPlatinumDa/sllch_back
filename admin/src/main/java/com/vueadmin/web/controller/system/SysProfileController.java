@@ -2,6 +2,8 @@ package com.vueadmin.web.controller.system;
 
 import java.io.IOException;
 
+import com.vueadmin.common.exception.file.InvalidExtensionException;
+import com.vueadmin.common.utils.file.MimeTypeUtils;
 import com.vueadmin.common.utils.ossUploader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -126,25 +128,18 @@ public class SysProfileController extends BaseController
      */
     @Log(title = "用户头像", businessType = BusinessType.UPDATE)
     @PostMapping("/avatar")
-    public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws IOException
-    {
+    public AjaxResult avatar(@RequestParam("avatarfile") MultipartFile file) throws Exception {
         if (!file.isEmpty())
         {
             LoginUser loginUser = getLoginUser();
             String filePath = Config.getAvatarPath();
-            String fileName1 = extractFilename(file);
-            String[] splitedFilename = fileName1.split("/");
-            String avatar = FileUploadUtils.upload(filePath, file);
-            String[] splitedNewFileName = avatar.split("/");
-            String url = filePath+"/"+splitedFilename[0]+"/"+splitedFilename[1]+"/"+splitedFilename[2]+"/"+splitedNewFileName[6];
-            ossUploader ossUploader = new ossUploader();
-            String callBackUrl = ossUploader.ossImageLoader(url);
-            if (userService.updateUserAvatar(loginUser.getUsername(), callBackUrl))
+            String avatar = FileUploadUtils.upload(filePath, file, MimeTypeUtils.IMAGE_EXTENSION);
+            if (userService.updateUserAvatar(loginUser.getUsername(), avatar))
             {
                 AjaxResult ajax = AjaxResult.success();
-                ajax.put("imgUrl", callBackUrl);
+                ajax.put("imgUrl", avatar);
                 // 更新缓存用户头像
-                loginUser.getUser().setAvatar(callBackUrl);
+                loginUser.getUser().setAvatar(avatar);
                 tokenService.setLoginUser(loginUser);
                 return ajax;
             }
