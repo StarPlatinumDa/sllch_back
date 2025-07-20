@@ -54,6 +54,7 @@ public class SysProfileController extends BaseController
         return ajax;
     }
 
+    
     /**
      * 修改用户
      */
